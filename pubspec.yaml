@@ -1,0 +1,108 @@
+name: moto_rihla
+description: Saudi Motorcycle-Hailing App with 2025 UI aesthetic
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # UI & Design
+  cupertino_icons: ^1.0.6
+  google_fonts: ^6.1.0
+  flutter_svg: ^2.0.9
+  lottie: ^2.7.0
+  shimmer: ^3.0.0
+  glassmorphism: ^3.0.0
+
+  # Maps & Location
+  google_maps_flutter: ^2.5.3
+  geolocator: ^10.1.0
+  geocoding: ^2.1.1
+  flutter_polyline_points: ^2.0.0
+
+  # State Management
+  provider: ^6.1.1
+  riverpod: ^2.4.9
+  flutter_riverpod: ^2.4.9
+
+  # Network & API
+  dio: ^5.4.0
+  retrofit: ^4.0.3
+  json_annotation: ^4.8.1
+
+  # Real-time Communication
+  socket_io_client: ^2.0.3+1
+  web_socket_channel: ^2.4.0
+
+  # Authentication
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.15.3
+  firebase_messaging: ^14.7.10
+
+  # Payments
+  stripe_payment: ^1.1.4
+  pay: ^1.1.2
+
+  # Local Storage
+  shared_preferences: ^2.2.2
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  # Utilities
+  intl: ^0.18.1
+  permission_handler: ^11.1.0
+  image_picker: ^1.0.4
+  cached_network_image: ^3.3.0
+  url_launcher: ^6.2.2
+  package_info_plus: ^4.2.0
+  device_info_plus: ^9.1.1
+
+  # UI Components
+  flutter_staggered_animations: ^1.1.1
+  flutter_animate: ^4.3.0
+  flutter_screenutil: ^5.9.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+  build_runner: ^2.4.7
+  json_serializable: ^6.7.1
+  retrofit_generator: ^7.0.8
+  hive_generator: ^2.0.1
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/animations/
+    - assets/translations/
+
+  fonts:
+    - family: SF Pro Display
+      fonts:
+        - asset: assets/fonts/SF-Pro-Display-Regular.otf
+        - asset: assets/fonts/SF-Pro-Display-Medium.otf
+          weight: 500
+        - asset: assets/fonts/SF-Pro-Display-Semibold.otf
+          weight: 600
+        - asset: assets/fonts/SF-Pro-Display-Bold.otf
+          weight: 700
+    - family: Roboto Flex
+      fonts:
+        - asset: assets/fonts/RobotoFlex-Regular.ttf
+        - asset: assets/fonts/RobotoFlex-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/RobotoFlex-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/RobotoFlex-Bold.ttf
+          weight: 700
