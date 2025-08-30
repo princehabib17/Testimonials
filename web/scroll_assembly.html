@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Scroll Assembly Demo</title>
+<style>
+  .rs2-assembly{--bg:#fff;--ink:#111;--muted:#6b7280;--hair:#e5e7eb;--accent:#111;
+    background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,Segoe UI,Inter,Roboto,Arial,sans-serif;
+    padding:64px 24px;max-width:1200px;margin:auto}
+  .rs2-assembly h2{font-size:28px;letter-spacing:-.01em;margin:0 0 28px}
+  .rs2-grid{display:grid;grid-template-columns:minmax(260px,360px) 1fr;gap:40px}
+  @media (max-width:960px){.rs2-grid{grid-template-columns:1fr}}
+  .rs2-steps{position:sticky;top:24px;border:1px solid var(--hair);border-radius:12px;padding:14px}
+  .rs2-step{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:12px;border-radius:10px;border:1px solid transparent;
+            transition:background .3s ease,border-color .3s ease}
+  .rs2-step+.rs2-step{margin-top:4px}
+  .rs2-step_num{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--hair);font-weight:700;font-size:12px;
+                transition:background .3s ease,color .3s ease,border-color .3s ease}
+  .rs2-step_title{font-weight:700;margin:0 0 3px}
+  .rs2-step_desc{margin:0;color:var(--muted);font-size:14px}
+  .rs2-step[aria-current="step"]{border-color:var(--ink);background:#fafafa}
+  .rs2-step[aria-current="step"] .rs2-step_num{background:#111;color:#fff;border-color:#111}
+  .rs2-right{position:relative}
+  .rs2-canvas{position:sticky;top:24px;border:1px solid var(--hair);border-radius:12px;min-height:68vh;background:#fff;display:grid;place-items:center}
+  .rs2-canvas svg{width:100%;max-width:740px;height:auto}
+  .rs2-part{opacity:0;transform:translateY(8px);transition:opacity .45s ease,transform .45s ease}
+  @media (prefers-reduced-motion: reduce){.rs2-part{transition:none}}
+  .rs2-assembly[data-on~="panel"] .rs2-part--panel,
+  .rs2-assembly[data-on~="inv"]   .rs2-part--inv,
+  .rs2-assembly[data-on~="wire"]  .rs2-part--wire,
+  .rs2-assembly[data-on~="mon"]   .rs2-part--mon{opacity:1;transform:none}
+  .rs2-scene{min-height:78vh;border-bottom:1px dashed var(--hair)}
+  .rs2-scene:last-child{border-bottom:none}
+  .rs2-progress{height:1px;background:var(--hair);position:relative;margin:0 0 16px}
+  .rs2-progress_bar{position:absolute;inset:0 0 auto 0;height:1px;background:#111;transform-origin:left center;transform:scaleX(0);
+                    transition:transform .35s ease}
+  .rs2-legend{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;padding:10px 14px;color:#374151}
+  .rs2-chip{border:1px solid var(--hair);border-radius:999px;padding:6px 10px;font-size:12px}
+</style>
+</head>
+<body>
+<section class="rs2-assembly" aria-labelledby="rs2-assembly-title">
+  <h2 id="rs2-assembly-title">Build Sequence → Panels • Inverters • Wiring • Monitoring</h2>
+  <div class="rs2-grid">
+    <aside class="rs2-steps" role="list" aria-label="Assembly steps">
+      <div class="rs2-step" data-key="panel">
+        <div class="rs2-step_num">1</div>
+        <div>
+          <p class="rs2-step_title">Panels Mounted</p>
+          <p class="rs2-step_desc">Tilt & azimuth fixed; array layout locked.</p>
+        </div>
+      </div>
+      <div class="rs2-step" data-key="inv">
+        <div class="rs2-step_num">2</div>
+        <div>
+          <p class="rs2-step_title">Inverters Installed</p>
+          <p class="rs2-step_desc">Stringing plan validated; DC→AC mapped.</p>
+        </div>
+      </div>
+      <div class="rs2-step" data-key="wire">
+        <div class="rs2-step_num">3</div>
+        <div>
+          <p class="rs2-step_title">Wiring & Safety</p>
+          <p class="rs2-step_desc">Combiner boxes, isolators, grounding.</p>
+        </div>
+      </div>
+      <div class="rs2-step" data-key="mon">
+        <div class="rs2-step_num">4</div>
+        <div>
+          <p class="rs2-step_title">Monitoring Online</p>
+          <p class="rs2-step_desc">SCADA live; baseline performance set.</p>
+        </div>
+      </div>
+    </aside>
+    <div class="rs2-right">
+      <div class="rs2-progress" aria-hidden="true"><div class="rs2-progress_bar"></div></div>
+      <div class="rs2-canvas" aria-hidden="true">
+        <svg viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg">
+          <line x1="40" y1="480" x2="920" y2="480" stroke="#e5e7eb" stroke-width="1"/>
+          <g class="rs2-part rs2-part--panel" stroke="#111" fill="none">
+            <rect x="80" y="260" width="240" height="130" rx="8"/>
+            <path d="M92 282h216M92 308h216M92 334h216" />
+            <rect x="360" y="242" width="240" height="130" rx="8"/>
+            <path d="M372 264h216M372 290h216M372 316h216" />
+            <rect x="195" y="390" width="30" height="90" fill="#111" opacity=".08"/>
+            <rect x="475" y="372" width="30" height="108" fill="#111" opacity=".08"/>
+          </g>
+          <g class="rs2-part rs2-part--inv" stroke="#111" fill="none">
+            <rect x="720" y="300" width="130" height="140" rx="10"/>
+            <circle cx="785" cy="358" r="18" />
+            <circle cx="785" cy="358" r="6" fill="#111"/>
+          </g>
+          <g class="rs2-part rs2-part--wire" stroke="#111" fill="none">
+            <path d="M320 330 C 420 360, 640 360, 720 330" />
+            <path d="M600 310 C 660 320, 690 335, 720 340" />
+            <circle cx="320" cy="330" r="4" fill="#111"/>
+            <circle cx="600" cy="310" r="4" fill="#111"/>
+            <circle cx="720" cy="335" r="4" fill="#111"/>
+          </g>
+          <g class="rs2-part rs2-part--mon" stroke="#111" fill="none">
+            <rect x="560" y="120" width="280" height="120" rx="10"/>
+            <polyline points="580,198 620,162 660,178 700,148 740,170 820,140" stroke-width="2"/>
+          </g>
+        </svg>
+        <div class="rs2-legend">
+          <span class="rs2-chip">Panels</span>
+          <span class="rs2-chip">Inverters</span>
+          <span class="rs2-chip">Wiring</span>
+          <span class="rs2-chip">Monitoring</span>
+        </div>
+      </div>
+      <section class="rs2-scene" data-key="panel"></section>
+      <section class="rs2-scene" data-key="inv"></section>
+      <section class="rs2-scene" data-key="wire"></section>
+      <section class="rs2-scene" data-key="mon"></section>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  const root = document.querySelector('.rs2-assembly');
+  const steps = [...root.querySelectorAll('.rs2-step')];
+  const scenes = [...root.querySelectorAll('.rs2-scene')];
+  const bar = root.querySelector('.rs2-progress_bar');
+
+  function setActive(key){
+    const idx = scenes.findIndex(s=>s.dataset.key===key);
+    const activeTokens = scenes.slice(0, idx+1).map(s=>s.dataset.key);
+    root.dataset.on = activeTokens.join(' ');
+    steps.forEach(s=>s.setAttribute('aria-current', s.dataset.key===key ? 'step':'false'));
+    const progress = (idx+1)/scenes.length;
+    bar.style.transform = `scaleX(${progress.toFixed(3)})`;
+  }
+
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting) setActive(e.target.dataset.key); });
+  },{threshold:0.52});
+  scenes.forEach(sc=>io.observe(sc));
+  setActive('panel');
+})();
+</script>
+</body>
+</html>
